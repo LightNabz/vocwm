@@ -3,7 +3,7 @@ project('vocwm', ['cpp', 'c'],
   default_options: ['cpp_std=c++20', 'c_std=c11']
 )
 
-add_project_arguments('-DWLR_USE_UNSTABLE', language: 'cpp')
+add_project_arguments('-DWLR_USE_UNSTABLE', language: ['c', 'cpp'])
 
 wayland = import('wayland')
 
@@ -26,7 +26,8 @@ xdg_shell_files = wayland.scan_xml(
 )
 
 executable('vocwm',
-  ['src/main.cpp', xdg_shell_files], 
+  ['src/main.cpp', 'src/keyboard.cpp', 'src/cursor.cpp', 'src/output.cpp', 'src/xdg_surface.cpp', xdg_shell_files],
+  include_directories: ['.', 'include'],
   dependencies: [
     wayland_server, 
     wlroots, 
